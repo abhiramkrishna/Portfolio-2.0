@@ -1,0 +1,548 @@
+/* ==========================================================================
+   POLYMATH / EXPERIENCE SECTION — SINUSOIDAL INTERACTIVE TIMELINE
+   Inspired by architectural wave process layout with GSAP micro-animations
+   ========================================================================== */
+
+.polymath-section {
+  position: relative;
+  padding: var(--space-4xl) 0 var(--space-5xl);
+  overflow: hidden;
+}
+
+/* Background ambient glow */
+.polymath-bg-glow {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  height: 400px;
+  background: radial-gradient(ellipse, var(--accent-cyan-dim) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.6;
+}
+
+/* Header styling */
+.polymath-header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto var(--space-3xl);
+  position: relative;
+  z-index: 2;
+}
+
+.polymath-tagline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-cyan);
+  margin-bottom: var(--space-sm);
+}
+
+.polymath-tagline::before,
+.polymath-tagline::after {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 1.5px;
+  background: var(--accent-cyan);
+  opacity: 0.6;
+}
+
+.polymath-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--text-primary);
+  margin-bottom: var(--space-md);
+}
+
+.polymath-title-dot {
+  color: var(--accent-cyan);
+  display: inline-block;
+}
+
+.polymath-subtitle {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+/* Watermark in background of header */
+.polymath-header-watermark {
+  position: absolute;
+  right: -20px;
+  top: -40px;
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 10vw, 8rem);
+  font-weight: 900;
+  color: var(--text-primary);
+  opacity: 0.03;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+}
+
+/* ==========================================================================
+   DESKTOP WAVE TIMELINE (HORIZONTAL SINUSOIDAL WAVE)
+   ========================================================================== */
+
+.polymath-desktop-wrapper {
+  display: block;
+  position: relative;
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  height: 640px;
+  z-index: 2;
+}
+
+@media (max-width: 1023px) {
+  .polymath-desktop-wrapper {
+    display: none;
+  }
+}
+
+/* The SVG canvas that holds the wave line */
+.polymath-svg-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.polymath-wave-glow {
+  filter: drop-shadow(0 0 10px var(--accent-cyan-glow));
+}
+
+.polymath-wave-base {
+  stroke: var(--border-medium);
+  stroke-dasharray: 4 6;
+  opacity: 0.35;
+}
+
+.polymath-wave-active {
+  stroke: var(--accent-cyan);
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 8px var(--accent-cyan-glow));
+}
+
+/* Glowing traveling beacon on the curve */
+.polymath-beacon {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
+  box-shadow: 0 0 20px var(--accent-cyan), 0 0 40px var(--accent-cyan);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 2;
+  transition: opacity 0.3s ease;
+}
+
+/* Node items container */
+.polymath-desktop-nodes {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+}
+
+/* Individual node wrapper at specific x-coordinates */
+.polymath-node-col {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 280px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Node 1: Trough at 68% height -> Card is placed ABOVE */
+.polymath-node-col.pos-above {
+  justify-content: flex-start;
+}
+
+.polymath-node-col.pos-above .polymath-card {
+  margin-top: 10px;
+}
+
+.polymath-node-col.pos-above .polymath-badge-anchor {
+  position: absolute;
+  top: 420px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Node 2 & 4: Crest at 28% height -> Card is placed BELOW */
+.polymath-node-col.pos-below {
+  justify-content: flex-end;
+}
+
+.polymath-node-col.pos-below .polymath-card {
+  margin-bottom: 10px;
+}
+
+.polymath-node-col.pos-below .polymath-badge-anchor {
+  position: absolute;
+  top: 180px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* The Hexagonal / Pill Badge on the wave line */
+.polymath-badge {
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  background: var(--bg-secondary);
+  border: 1.5px solid var(--border-medium);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-cyan);
+  cursor: pointer;
+  box-shadow: 0 10px 25px -4px rgba(0, 0, 0, 0.4), 0 0 20px var(--accent-cyan-dim);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  z-index: 4;
+}
+
+[data-theme="light"] .polymath-badge {
+  background: #ffffff;
+  border-color: rgba(2, 132, 199, 0.25);
+  box-shadow: 0 12px 30px -4px rgba(2, 132, 199, 0.22), 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.polymath-badge:hover,
+.polymath-badge.is-active {
+  transform: scale(1.15);
+  border-color: var(--accent-cyan);
+  background: var(--bg-glass-active);
+  box-shadow: 0 0 30px var(--accent-cyan-glow), 0 10px 25px -4px rgba(0, 0, 0, 0.5);
+  color: var(--accent-cyan);
+}
+
+[data-theme="light"] .polymath-badge:hover,
+[data-theme="light"] .polymath-badge.is-active {
+  background: #ffffff;
+  box-shadow: 0 0 30px rgba(2, 132, 199, 0.4), 0 12px 28px rgba(0, 0, 0, 0.08);
+}
+
+/* Connecting stem from badge to card */
+.polymath-stem {
+  position: absolute;
+  left: 50%;
+  width: 1.5px;
+  background: linear-gradient(to bottom, var(--accent-cyan-dim), transparent);
+  transform: translateX(-50%);
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.pos-above .polymath-stem {
+  bottom: 220px;
+  height: 60px;
+  background: linear-gradient(to top, var(--accent-cyan), transparent);
+}
+
+.pos-below .polymath-stem {
+  top: 210px;
+  height: 60px;
+  background: linear-gradient(to bottom, var(--accent-cyan), transparent);
+}
+
+/* ==========================================================================
+   CARD DESIGN & WATERMARK NUMERAL
+   ========================================================================== */
+
+.polymath-card {
+  position: relative;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg) var(--space-lg) var(--space-xl);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  z-index: 3;
+  overflow: hidden;
+}
+
+[data-theme="light"] .polymath-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(15, 23, 42, 0.08);
+  box-shadow: 0 10px 32px -4px rgba(15, 23, 42, 0.06);
+}
+
+.polymath-card:hover,
+.polymath-card.is-active {
+  border-color: var(--accent-cyan);
+  transform: translateY(-4px);
+  box-shadow: 0 14px 40px -8px var(--accent-cyan-dim), 0 0 20px rgba(0, 240, 255, 0.1);
+}
+
+[data-theme="light"] .polymath-card:hover,
+[data-theme="light"] .polymath-card.is-active {
+  box-shadow: 0 16px 40px -8px rgba(2, 132, 199, 0.2);
+}
+
+/* Watermark numeral behind/above card (1, 2, 3, 4) */
+.polymath-watermark-num {
+  position: absolute;
+  right: 12px;
+  top: -10px;
+  font-family: var(--font-display);
+  font-size: 5.5rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--text-primary);
+  opacity: 0.06;
+  pointer-events: none;
+  user-select: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+[data-theme="light"] .polymath-watermark-num {
+  color: #090d16;
+  opacity: 0.08;
+}
+
+.polymath-card:hover .polymath-watermark-num,
+.polymath-card.is-active .polymath-watermark-num {
+  opacity: 0.15;
+  color: var(--accent-cyan);
+  transform: scale(1.05);
+}
+
+/* Card content */
+.polymath-card-header {
+  position: relative;
+  z-index: 2;
+  margin-bottom: var(--space-sm);
+}
+
+.polymath-meta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  background: var(--accent-cyan-dim);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  color: var(--accent-cyan);
+  letter-spacing: 0.04em;
+  margin-bottom: var(--space-xs);
+}
+
+.polymath-card-title {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.3;
+  margin-bottom: 2px;
+}
+
+.polymath-card-role {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--accent-cyan);
+  font-weight: 500;
+  margin-bottom: var(--space-sm);
+}
+
+.polymath-card-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  z-index: 2;
+}
+
+.polymath-bullet-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: var(--text-xs);
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+
+.polymath-bullet-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
+  margin-top: 6px;
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+/* ==========================================================================
+   MOBILE & TABLET RESPONSIVE TIMELINE (VERTICAL SPINE)
+   ========================================================================== */
+
+.polymath-mobile-wrapper {
+  display: none;
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: var(--space-lg) var(--space-sm);
+}
+
+@media (max-width: 1023px) {
+  .polymath-mobile-wrapper {
+    display: block;
+  }
+}
+
+.polymath-mobile-spine {
+  position: absolute;
+  top: 40px;
+  bottom: 40px;
+  left: 36px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--accent-cyan), var(--border-medium) 80%, transparent);
+  border-radius: var(--radius-full);
+}
+
+.polymath-mobile-item {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-2xl);
+}
+
+.polymath-mobile-item:last-child {
+  margin-bottom: 0;
+}
+
+.polymath-mobile-badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--bg-secondary);
+  border: 1.5px solid var(--accent-cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-cyan);
+  box-shadow: 0 0 16px var(--accent-cyan-dim);
+  flex-shrink: 0;
+  z-index: 2;
+}
+
+[data-theme="light"] .polymath-mobile-badge {
+  background: #ffffff;
+}
+
+.polymath-mobile-card {
+  flex: 1;
+  position: relative;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+[data-theme="light"] .polymath-mobile-card {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+}
+
+.polymath-mobile-card .polymath-watermark-num {
+  font-size: 4.5rem;
+  top: -8px;
+  right: 8px;
+}
+
+/* ==========================================================================
+   BOTTOM TELEMETRY BAR
+   ========================================================================== */
+
+.polymath-footer-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1320px;
+  margin: var(--space-2xl) auto 0;
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--border-subtle);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  color: var(--text-muted);
+  position: relative;
+  z-index: 2;
+}
+
+.polymath-footer-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.polymath-pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
+  box-shadow: 0 0 8px var(--accent-cyan);
+  animation: pulse-ring 2s infinite ease-in-out;
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.9); opacity: 0.6; }
+  50% { transform: scale(1.4); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.6; }
+}
+
+.polymath-controls {
+  display: flex;
+  gap: 6px;
+}
+
+.polymath-control-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.polymath-control-dot:hover,
+.polymath-control-dot.active {
+  background: var(--accent-cyan-dim);
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+}

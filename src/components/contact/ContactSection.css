@@ -1,0 +1,327 @@
+.contact-wrapper {
+  padding: 100px 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--bg-primary);
+  min-height: 100vh;
+}
+
+.contact-card {
+  width: 100%;
+  max-width: 1440px;
+  background: var(--bg-secondary);
+  border-radius: 40px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-subtle);
+}
+
+@media (min-width: 1024px) {
+  .contact-card {
+    flex-direction: row;
+    min-height: 850px;
+  }
+}
+
+/* =========================================
+Left Section: Greetings Wall
+========================================= */
+.contact-left {
+  flex: 1;
+  position: relative;
+  min-height: 500px;
+  margin: 12px;
+  border-radius: 28px;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-primary) 100%);
+
+  /* Tiled typographic wall — every greeting owns a grid cell, so nothing can overlap */
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-rows: repeat(9, minmax(0, 1fr));
+  grid-template-areas:
+    "hello bonj  bonj  bonj  bonj  zdr"
+    "hello hola  hola  ola   ola   zdr"
+    "hello jp    jp    jp    jp    zdr"
+    "hello ciao  ciao  zh    zh    zdr"
+    "nam   greek greek greek greek zdr"
+    "nam   tamil tamil tamil tamil zdr"
+    "nam   kan   kan   kan   kan   zdr"
+    "ar    ar    tel   tel   tel   tel"
+    "mal   mal   mal   mal   mal   mal";
+  gap: 10px;
+  padding: 22px;
+}
+
+.greeting-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.greeting-text {
+  display: block;
+  font-family: 'Poppins', 'Noto Sans', 'Noto Sans Arabic', 'Noto Sans JP', 'Noto Sans SC',
+    'Noto Sans Kannada', 'Noto Sans Malayalam', 'Noto Sans Tamil', 'Noto Sans Telugu', sans-serif;
+  font-weight: 800;
+  font-size: 16px; /* overwritten by the fit-to-cell measurement in ContactSection.tsx */
+  line-height: 1.05;
+  white-space: nowrap;
+  color: var(--text-primary);
+  user-select: none;
+  opacity: 0;
+  transition: opacity 0.35s ease, scale 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.greeting-text.is-latin {
+  letter-spacing: -0.03em;
+}
+
+/* Vertical words use writing-mode (not transform) so their layout box is truly vertical */
+.greeting-cell.is-up .greeting-text {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg); /* reads bottom → top */
+}
+
+.greeting-cell.is-down .greeting-text {
+  writing-mode: vertical-rl; /* reads top → bottom */
+}
+
+/* Fade in once every word has been measured and sized */
+.contact-left.is-fitted .greeting-text {
+  opacity: 1;
+}
+
+/* Hover: spotlight the hovered greeting, dim the rest */
+.contact-left.is-fitted:hover .greeting-text {
+  opacity: 0.22;
+}
+
+.contact-left.is-fitted .greeting-cell:hover .greeting-text {
+  opacity: 1;
+  scale: 1.04;
+}
+
+@media (max-width: 1023px) {
+  .contact-left {
+    min-height: 0;
+    aspect-ratio: 3 / 4;
+    gap: 6px;
+    padding: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .greeting-text {
+    transition: none;
+  }
+}
+
+/* =========================================
+Right Section: Actions & Content
+========================================= */
+.contact-right {
+  flex: 1.2;
+  padding: 56px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 1024px) {
+  .contact-right {
+    padding: 80px 72px;
+  }
+}
+
+/* One shared column so title, email and socials all align on the same edges */
+.contact-right-inner {
+  width: 100%;
+  max-width: 620px;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+
+.contact-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: clamp(40px, 4.2vw, 58px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.contact-group {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.contact-label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding-left: 4px;
+}
+
+/* Email pill — the send button sits inside it, aligned right */
+.email-display-pill {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  min-height: 84px;
+  padding: 8px 8px 8px 32px;
+  background: var(--bg-tertiary);
+  border-radius: 50px;
+  border: 1px solid var(--border-subtle);
+  box-sizing: border-box;
+}
+
+.email-text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 300;
+  font-size: clamp(18px, 1.8vw, 26px);
+  color: var(--text-primary);
+}
+
+.send-mail-pill {
+  flex-shrink: 0;
+  height: 68px;
+  padding: 0 30px;
+  background: #000000;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  white-space: nowrap;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.send-mail-pill:hover {
+  background: var(--accent-cyan);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* =========================================
+Social Links & Brand Hover States
+========================================= */
+.social-links-stack {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  width: 100%;
+}
+
+.social-pill-link {
+  height: 96px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-sizing: border-box;
+}
+
+/* SVG logo centred within each tile */
+.social-icon-img {
+  display: block;
+  max-width: 82%;
+  max-height: 44%;
+  object-fit: contain;
+  pointer-events: none;
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+[data-theme="dark"] .social-icon-img {
+  filter: brightness(0) invert(1);
+}
+
+/* Base hover uplift */
+.social-pill-link:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Dynamic color shift: inverts logos to white */
+.social-pill-link:hover .social-icon-img {
+  filter: brightness(0) invert(1);
+  transform: scale(1.04);
+}
+
+/* 1. Instagram: Sunset Gradient */
+.social-pill-link.instagram:hover {
+  background: linear-gradient(90deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+/* 2. GitHub: Solid Dark */
+.social-pill-link.github:hover {
+  background-color: #181717;
+}
+
+/* 3. LinkedIn: Brand Blue */
+.social-pill-link.linkedin:hover {
+  background-color: #0077b5;
+}
+
+/* Mobile responsive fallback */
+@media (max-width: 640px) {
+  .contact-right-inner {
+    gap: 40px;
+  }
+
+  .email-display-pill {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 20px;
+    border-radius: 28px;
+    gap: 14px;
+  }
+
+  .email-text {
+    text-align: center;
+  }
+
+  .send-mail-pill {
+    height: 56px;
+  }
+
+  .social-links-stack {
+    grid-template-columns: 1fr;
+  }
+
+  .social-pill-link {
+    height: 80px;
+  }
+
+  .social-icon-img {
+    max-width: 50%;
+  }
+}
