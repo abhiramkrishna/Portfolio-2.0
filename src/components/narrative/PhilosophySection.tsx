@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Landmark, Briefcase, Palette, Cpu } from 'lucide-react';
+import { Landmark, Briefcase, Palette } from 'lucide-react';
 import { gsap } from 'gsap';
 import './PolymathSection.css';
 
@@ -28,32 +28,32 @@ const EXPERIENCES: ExperienceStage[] = [
     organization: 'Government of India',
     role: 'Intern',
     location: 'India',
-    period: '2023',
+    period: 'May 2023 — July 2023',
     icon: Landmark,
     bullets: [
-      'Government communications, information research & media ecosystem',
-      'Exposure to public information systems and institutional workflows'
+      'Government communications, information research & media workflow',
+      'Exposure to public information systems and institutional reporting'
     ],
     pos: 'above',
-    colLeftPercent: 13.33,
+    colLeftPercent: 20,
     badgeTopPercent: 74
   },
   {
     id: 'nbfc',
     num: '02',
     watermark: '2',
-    title: 'NBFC — Private Sector',
+    title: 'NBFC Firm',
     organization: 'Financial Services',
     role: 'Junior Assistant',
     location: 'India',
-    period: '2024',
+    period: 'May 2025 — Dec 2025',
     icon: Briefcase,
     bullets: [
       'Financial operations, documentation & administrative workflows',
-      'Experience within the financial services ecosystem'
+      'Analytical evaluation and data management'
     ],
     pos: 'below',
-    colLeftPercent: 38.33,
+    colLeftPercent: 50,
     badgeTopPercent: 28
   },
   {
@@ -61,43 +61,23 @@ const EXPERIENCES: ExperienceStage[] = [
     num: '03',
     watermark: '3',
     title: 'Al Midmar Advertising & Design',
-    organization: 'Creative Studio',
+    organization: 'Design & Advertising',
     role: 'Designer',
     location: 'UAE',
-    period: '2025 — Present',
+    period: 'Sep 2025 — Present',
     icon: Palette,
     bullets: [
-      'Visual design, creative development & digital design',
-      'Working across branding, advertising and multidisciplinary creative projects'
+      'Visual identity, creative development & digital branding',
+      'Multidisciplinary design across advertising and interactive media'
     ],
     pos: 'above',
-    colLeftPercent: 63.33,
+    colLeftPercent: 80,
     badgeTopPercent: 74
-  },
-  {
-    id: 'independent',
-    num: '04',
-    watermark: '4',
-    title: 'Independent / Side Projects',
-    organization: 'Self-Directed Lab',
-    role: 'AI Researcher & Tester · Front-End Web Designer',
-    location: 'Remote',
-    period: 'Ongoing',
-    icon: Cpu,
-    bullets: [
-      'Independent AI research, experimentation & model testing',
-      'Front-end web design and interactive digital experiences',
-      'Self-directed research beyond formal academic/industry pathways',
-      'Exploring the intersection of AI × Design × Technology × Economics'
-    ],
-    pos: 'below',
-    colLeftPercent: 86.67,
-    badgeTopPercent: 28
   }
 ];
 
-// Continuous cubic bezier path matching the 4 nodes
-const WAVE_PATH_DATA = 'M 0,250 C 70,250 100,370 160,370 C 260,370 360,140 460,140 C 560,140 660,370 760,370 C 850,370 950,140 1040,140 C 1110,140 1150,250 1200,250';
+// Continuous cubic bezier path matching the 3 nodes
+const WAVE_PATH_DATA = 'M 0,250 C 90,250 150,370 240,370 C 360,370 480,140 600,140 C 720,140 840,370 960,370 C 1050,370 1110,250 1200,250';
 
 export const PhilosophySection: React.FC = () => {
   const [activeStage, setActiveStage] = useState<number>(0);

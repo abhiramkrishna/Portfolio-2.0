@@ -25,7 +25,7 @@ export const TECH_GROUPS = {
     id: 'environment',
     title: 'DEV WORKSPACE & TOOLING',
     subtitle: 'Modular IDEs, compilers, notebooks & interactive canvas',
-    count: '06'
+    count: '04'
   }
 } as const;
 
@@ -162,15 +162,6 @@ export const ALL_TECH_TOOLS: TechTool[] = [
     versionBadge: 'Workspace Pro'
   },
   {
-    id: 'codex',
-    name: 'Codex',
-    category: 'environment',
-    groupName: 'Dev Workspace & Tooling',
-    role: 'Code Synthesis & Logic',
-    specs: 'AST Parsing · Syntactic Analysis · Context Generation',
-    versionBadge: 'Engine Core'
-  },
-  {
     id: 'framer',
     name: 'Framer',
     category: 'environment',
@@ -178,14 +169,5 @@ export const ALL_TECH_TOOLS: TechTool[] = [
     role: 'Interactive Canvas & Motion Physics',
     specs: 'React Runtime · Spring Dynamics · Responsive Publishing',
     versionBadge: 'Motion Canvas'
-  },
-  {
-    id: 'antigravity',
-    name: 'Antigravity IDE',
-    category: 'environment',
-    groupName: 'Dev Workspace & Tooling',
-    role: 'Advanced Workspace & Orchestration',
-    specs: 'Multi-Task Execution · Command Integration · Workspace Management',
-    versionBadge: 'v2.0 Core'
   }
 ];

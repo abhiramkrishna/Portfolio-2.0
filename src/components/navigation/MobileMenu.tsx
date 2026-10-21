@@ -10,7 +10,7 @@ interface MobileMenuProps {
 
 const MENU_ITEMS = [
   { id: 'hero', index: '01', label: 'INDEX' },
-  { id: 'philosophy', index: '02', label: 'POLYMATH' },
+  { id: 'philosophy', index: '02', label: 'EXPERIENCE' },
   { id: 'technology', index: '03', label: 'TECH STACK' },
   { id: 'contact', index: '04', label: 'CONTACT' }
 ];
@@ -47,7 +47,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
     <div className="mobile-overlay" role="dialog" aria-modal="true" aria-label="Navigation Menu">
       <div className="mobile-menu-header">
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--accent-cyan)' }}>
-          SYSTEM_NAV // ORBITAL
+          NAVIGATION
         </div>
         <button
           type="button"
@@ -76,7 +76,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
 
       <div style={{ marginTop: 'auto', paddingTop: 'var(--space-xl)', borderTop: '1px solid var(--border-subtle)' }}>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-2xs)', color: 'var(--text-muted)', marginBottom: '8px' }}>
-          EXTERNAL LINKS // TELEMETRY
+          CONNECT
         </div>
         <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
           <a href={PROFILE.socials.github} target="_blank" rel="noreferrer" className="social-coord-link">

@@ -19,7 +19,7 @@ export function useScrollProgress() {
           setScrollProgress(Math.min(100, Math.max(0, progress)));
 
           // Detect active section
-          const sections = ['hero', 'philosophy', 'disciplines', 'projects', 'technology', 'interests', 'economics', 'contact'];
+          const sections = ['hero', 'philosophy', 'technology', 'contact'];
           const viewportMid = currentY + window.innerHeight * 0.35;
 
           for (let i = sections.length - 1; i >= 0; i--) {

@@ -17,14 +17,14 @@ export const TechStackSection: React.FC = () => {
         <header className="tech-section-header">
           <div className="section-meta-tag">
             <span className="meta-bracket">[</span>
-            <span className="meta-text">03 // ARSENAL & TECH STACK</span>
+            <span className="meta-text">03 // TECH STACK & TOOLS</span>
             <span className="meta-bracket">]</span>
           </div>
           <div className="header-flex-row">
             <div>
-              <h2 className="tech-main-title">SYSTEMS & SOFTWARE MATRIX</h2>
+              <h2 className="tech-main-title">TECH STACK & SOFTWARE</h2>
               <p className="tech-main-subtitle">
-                High-precision runtimes, spatial 3D engines, and intelligent environments.
+                Design software, development runtimes, and creative toolsets.
               </p>
             </div>
           </div>
@@ -56,7 +56,7 @@ export const TechStackSection: React.FC = () => {
           <article className="tech-box">
             <div className="box-header">
               <div className="box-title-group">
-                <span className="box-category">CREATIVE ASSETS</span>
+                <span className="box-category">CREATIVE SUITE</span>
                 <h3 className="box-heading">Software</h3>
               </div>
               <ArrowUpRight size={18} className="box-arrow" />
@@ -75,7 +75,7 @@ export const TechStackSection: React.FC = () => {
           <article className="tech-box box-dark">
             <div className="box-header">
               <div className="box-title-group">
-                <span className="box-category">INTELLIGENCE</span>
+                <span className="box-category">DEVELOPMENT</span>
                 <h3 className="box-heading">IDE & Environments</h3>
               </div>
               <ArrowUpRight size={18} className="box-arrow" />

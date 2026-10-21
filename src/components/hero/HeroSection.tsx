@@ -37,7 +37,8 @@ export const HeroSection: React.FC = () => {
           {/* Action Triggers */}
           <div className="hero-actions">
             <a
-              href="/resume.pdf"
+              href="/Creative%20Portfolio_Abhiram_.pdf"
+              download="Creative Portfolio_Abhiram_.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary"
